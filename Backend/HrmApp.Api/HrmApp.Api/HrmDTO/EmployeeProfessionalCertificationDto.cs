@@ -10,9 +10,7 @@ namespace HrmApp.Api.HrmDTO
         public string? CertificationInstitute { get; set; } 
         public string? InstituteLocation { get; set; }
         public DateTime FromDate { get; set; }
-
         public DateTime? ToDate { get; set; }
-
         public DateTime? SetDate { get; set; }
 
     }

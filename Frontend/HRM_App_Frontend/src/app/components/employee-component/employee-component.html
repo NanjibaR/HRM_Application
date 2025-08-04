@@ -1,1 +1,26 @@
-<p>employee-component works!</p>
+<div class="container-fluid h-100">
+  <div class="row h-100">
+  
+   <div class="col-md-2 p-0 border-end" style="height: 100vh; overflow-y: auto;">
+      <div class="list-group">
+        <div class="list-group-item bg-secondary text-white border rounded py-4" 
+          style="position: sticky; top: 0; z-index: 1000;">
+          <h5 class="mb-0">Employee Catalogue</h5>
+        </div>
+        <div *ngFor="let emp of employees" 
+             class="list-group-item list-group-item-action border rounded mb-1"
+             [class.active]="selectedEmployee?.id === emp.id"
+             (click)="selectEmployee(emp.id)">
+          <div class="d-flex w-100 justify-content-between">
+            <h6 class="mb-1">{{ emp.id }} - {{ emp.employeeName }}</h6>
+          </div>
+          <small class="text-muted">{{ emp.departmentName }} - {{ emp.designation }}</small>
+        </div>
+      </div>
+    </div>
+    </div>
+</div>
+
+
+
+  

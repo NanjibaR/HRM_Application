@@ -46,7 +46,7 @@ namespace HrmApp.Api.Controllers
                     NationalIdentificationNumber = e.NationalIdentificationNumber,
                     Address = e.Address,
                     PresentAddress = e.PresentAddress,
-                    EmployeeImage = e.EmployeeImage,
+                    EmployeeImageBase = e.EmployeeImage != null ? Convert.ToBase64String(e.EmployeeImage) : null,
                     IdGender = e.IdGender,
                     IdReligion = e.IdReligion,
                     IdDepartment = e.IdDepartment,
