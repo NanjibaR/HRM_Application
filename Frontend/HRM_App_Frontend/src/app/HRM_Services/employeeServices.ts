@@ -13,11 +13,21 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 })
 export class EmployeeServices {
     private apiUrl = 'https://localhost:7035/api/employee';
-    constructor(private http: HttpClient,
-    private sanitizer: DomSanitizer) {}
+    constructor(private http: HttpClient) {}
 
 
-    getAllEmployees(idClient: number): Observable<EmployeeDTO[]> {
-        return this.http.get<EmployeeDTO[]>(`${this.apiUrl}/?idClient=${idClient}`);
-    }
+     getEmployees(idClient: number): Observable<EmployeeDTO[]> {
+         return this.http.get<EmployeeDTO[]>(`${this.apiUrl}/?idClient=${idClient}`)
+        //  .pipe(
+        //   catchError(this.handleError)
+        // );
+     }
+
+    //  getEmployeeById(idClient: number, id: number): Observable<any> {
+    //       //const params = new HttpParams()
+    //       .set('Idclient', idClient.toString())
+    //       .set('id', id.toString());
+
+    //       return this.http.get<EmployeeDTO>(`${this.apiUrl}/getemployeebyid`, { params })
+    //  }
 }

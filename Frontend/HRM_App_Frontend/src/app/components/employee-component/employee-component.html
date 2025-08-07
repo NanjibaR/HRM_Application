@@ -1,26 +1,198 @@
-<div class="container-fluid h-100">
-  <div class="row h-100">
-  
-   <div class="col-md-2 p-0 border-end" style="height: 100vh; overflow-y: auto;">
-      <div class="list-group">
-        <div class="list-group-item bg-secondary text-white border rounded py-4" 
-          style="position: sticky; top: 0; z-index: 1000;">
+<div class="container-fluid">
+  <div class="row">
+    <!-- Left Sidebar: Employee List -->
+    <div class="col-2 md-2 p-0 border-end" style="height: 100vh;">
+      <ul class="list-group list-group-light">
+        <!-- Sticky Header -->
+        <li
+          class="list-group-item text-white border rounded py-4"
+          style="
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: #2f2f2f;
+            font-size: 1.1rem;
+          "
+        >
           <h5 class="mb-0">Employee Catalogue</h5>
-        </div>
-        <div *ngFor="let emp of employees" 
-             class="list-group-item list-group-item-action border rounded mb-1"
-             [class.active]="selectedEmployee?.id === emp.id"
-             (click)="selectEmployee(emp.id)">
-          <div class="d-flex w-100 justify-content-between">
-            <h6 class="mb-1">{{ emp.id }} - {{ emp.employeeName }}</h6>
+        </li>
+
+        <!-- Dynamic List Items -->
+        <li
+          *ngFor="let item of items; let i = index"
+          class="list-group-item list-hover border rounded py-2"
+          style="cursor: pointer; background-color: #ffffff;"
+          [class.active]="selectedIndex === i"
+          (click)="selectItem(i)"
+        >
+          <div>{{ item.text }}</div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Right Content 1 -->
+    <div class="col-10 p-4">
+      <form>
+        <!-- Row 1 -->
+        <div class="row">
+            <div class="col-3 mb-3">
+              <label for="name">Employee Name</label>
+              <input id="name" type="text" name="name" value="" class="form-control mt-1" />
+            </div>
+
+
+            <div class="col-3 mb-3">
+              <label for="FatherName">Father's Name</label>
+              <input id="FatherName" type="text" class="form-control mt-1" formControlName="fatherName" />
+            </div>
+ 
+            
+            <div class="col-3 mb-3">
+              <label for="IdReportingManager">Reporting Manager</label>
+              <input id="IdReportingManager" type="number" class="form-control mt-1" formControlName="idReportingManager" />
+            </div>
+ 
+            
+            <div class="col-3 mb-3">
+              <label for="IdEmployeeType">Employee Type</label>
+              <select class="form-select mt-1" formControlName="idEmployeeType">
+                <option *ngFor="let emp of employeeTypes" [ngValue]="emp.value">
+                  {{ emp.text }}
+                </option>
+              </select>
+            </div>
+         </div>
+        
+
+        <div class="row">
+          <!-- Family Information -->
+          <div class="col-3 md-3 mb-3">
+            <div class="card">
+              <div class="card-header fw-bold">Family Information</div>
+                <div class="card-body p-0">
+                  <table class="table table-bordered mb-0">
+                    <tr><td>Row 1</td></tr>
+                    <tr><td>Row 2</td></tr>
+                    <tr><td>Row 3</td></tr>
+                  </table>
+              </div>
+            </div>
           </div>
-          <small class="text-muted">{{ emp.departmentName }} - {{ emp.designation }}</small>
+
+          <!-- Education -->
+          <div class="col-3 md-3 mb-3">
+            <div class="card">
+              <div class="card-header fw-bold">Education</div>
+              <div class="card-body p-0">
+                <table class="table table-bordered mb-0">
+                  <tr><td>Row 1</td></tr>
+                  <tr><td>Row 2</td></tr>
+                  <tr><td>Row 3</td></tr>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      
+
+
+      <!-- Right Content 2 -->
+
+
+      <div class="col-5 p-6">
+        <!-- Buttons -->
+        <div class="d-flex justify-content-end mb-3">
+          <button class="btn btn-success rounded-pill me-2">ADD</button>
+          <button class="btn btn-warning rounded-pill me-2">EDIT</button>
+          <button class="btn btn-danger rounded-pill">DELETE</button>
+        </div>
+
+        
+          <div class="row mt-0">
+            <div class="col">
+              <label for="name">Employee Name Bangla</label>
+              <input id="name" type="text" name="name" value="" class="form-control mt-1" />
+            </div>
+          </div>
+        
+          <div class="row mt-0">
+            <div class="col">
+              <label for="MotherName">Mother's Name</label>
+              <input id="MotherName" type="text" class="form-control mt-1" formControlName="motherName" />
+            </div>
+          </div>
+       
+          <div class="row mt-0">
+            <div class="col">
+              <label for="IdJobType">Job Type</label>
+              <select class="form-select mt-1" formControlName="idJobType">
+                <!-- <option *ngFor="let job of jobtyps" [ngValue]="job.value">
+                  {{job.text}}
+                </option> -->
+              </select>
+            </div>
+          </div>
+      
+
+        <div class="row mt-3">
+          <!-- Family Information -->
+          <div class="col-md-10 mb-4">
+            <div class="card">
+              <div class="card-header fw-bold">Family Information</div>
+              <div class="card-body p-0">
+                <table class="table table-bordered mb-0">
+                  <tr><td>Row 1</td></tr>
+                  <tr><td>Row 2</td></tr>
+                  <tr><td>Row 3</td></tr>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Others Documents -->
+          <div class="col-md-10 mb-4">
+            <div class="card">
+              <div class="card-header fw-bold">Others Documents</div>
+              <div class="card-body p-0">
+                <table class="table table-bordered mb-0">
+                  <tr><td>Row 1</td></tr>
+                  <tr><td>Row 2</td></tr>
+                  <tr><td>Row 3</td></tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
-    </div>
+  </div>
 </div>
 
 
 
-  
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+<style>
+  .list-hover:hover {
+    background-color: #87ceeb !important;
+  }
+
+  .list-group-item.active {
+    background-color: #0d6efd !important;
+    color: white !important;
+    border-color: #0d6efd !important;
+  }
+</style>
+
+

@@ -6,7 +6,6 @@ import { DocummentDto} from '../../HRM_Models/documentDto';
 import { EmployeefamilyInfoDto} from '../../HRM_Models/employeefamilyInfoDto';
 import { EducationInfoDto} from '../../HRM_Models/educationInfoDto';
 import { EmployeeProfessionalCertificationDto} from '../../HRM_Models/employeeProfessionalCertificationDto';
-// import { EmployeeService } from '../../services/employee-service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { EmployeeServices } from '../../HRM_Services/employeeServices';
 // import { DropdownService } from '../../services/dropdown-service';
@@ -17,7 +16,8 @@ import { EmployeeServices } from '../../HRM_Services/employeeServices';
   selector: 'app-employee-component',
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './employee-component.html',
-  styleUrl: './employee-component.css'
+  styleUrl: './employee-component.css',
+  standalone: true
 })
 export class EmployeeComponent implements OnInit{
 
@@ -56,7 +56,7 @@ export class EmployeeComponent implements OnInit{
   }
 
   constructor(
-    private employeeServices: EmployeeServices,
+    //private employeeServices: EmployeeServices,
     // private dropdownService: DropdownService,
      private fb: FormBuilder,
     // private sanitizer: DomSanitizer,
@@ -112,22 +112,91 @@ export class EmployeeComponent implements OnInit{
   });
     
   }
+
+  
+  items = [
+    { text: 'An disabled item', disabled: true },
+    { text: 'A second item', disabled: false },
+    { text: 'A third item', disabled: false },
+    { text: 'A fourth item', disabled: false },
+    { text: 'And a fifth one', disabled: false }
+  ];
+
     ngOnInit(): void {
       
       this.formOfEmployee.disable(); 
+      //this.loadEmployees();
       // this.loadDropdownData();
-      this.loadEmployees();
 
     }
 
-    loadEmployees(): void {
-    this.employeeServices.getAllEmployees(this.idClient).subscribe(data => {
-      this.employees = data;
-    });
+    
+  selectedIndex: number | null = null;
+
+  selectItem(index: number) {
+    this.selectedIndex = index;
   }
 
-  // selectEmployee(emp: EmployeeDTO): void {
-  //   this.selectedEmployee = emp;
+
+  //   loadEmployees(): void {
+  //   this.EmployeeServices.getEmployees(this.idClient).subscribe(data => {
+  //     this.employees = data;  console.log(data);
+  //   });
   // }
+
+
+
+
+
+
+
+
+
+  //  selectEmployee(employeeId: number): void {
+  //     this.employeeService.getEmployeeById(this.idClient, employeeId).subscribe({
+  //    next: (e) => {
+  //      this.isEditMode = true;
+  //      this.selectedEmployee = e;
+
+  //      this.employeeForm.patchValue({
+  //       id: e.id,
+  //       idClient: e.idClient,
+  //       employeeName: e.employeeName,
+  //       employeeNameBangla: e.employeeNameBangla,
+  //       fatherName: e.fatherName,
+  //       motherName: e.motherName,
+  //       birthDate: e.birthDate ? this.formatDate(e.birthDate) : null,
+  //       joiningDate: e.joiningDate ? this.formatDate(e.joiningDate) : null,
+  //       idDepartment: e.idDepartment,
+  //       idSection: e.idSection,
+  //       idDesignation: e.idDesignation,
+  //       idGender: e.idGender,
+  //       idReligion: e.idReligion,
+  //       idReportingManager: e.idReportingManager,
+  //       reportingManager: e.reportingManager,
+  //       idJobType: e.idJobType,
+  //       jobTypeName: e.jobTypeName,
+  //       idEmployeeType: e.idEmployeeType,
+  //       typeName: e.typeName,
+  //       address: e.address,
+  //       presentAddress: e.presentAddress,
+  //       nationalIdentificationNumber: e.nationalIdentificationNumber,
+  //       contactNo: e.contactNo,
+  //       isActive: e.isActive,
+  //       hasOvertime: e.hasOvertime,
+  //       hasAttendenceBonus: e.hasAttendenceBonus,
+  //       idWeekOff: e.idWeekOff,
+  //       weekOffDay: e.weekOffDay,
+  //       idMaritalStatus: e.idMaritalStatus,
+  //       maritalStatusName: e.maritalStatusName,
+  //       setDate: e.setDate,
+  //       createdBy: e.createdBy,
+  //       profileImage: null
+  //     });
+  //     this.employeeForm.disable();
+  //     this.isEditMode = true;
+  //     this.clearFormArrays();
+  //   }
+  
 
 }
