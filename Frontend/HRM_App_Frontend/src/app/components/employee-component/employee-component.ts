@@ -136,12 +136,6 @@ export class EmployeeComponent implements OnInit{
 
 
 
-
-
-
-
-
-
   //  selectEmployee(employeeId: number): void {
   //     this.employeeService.getEmployeeById(this.idClient, employeeId).subscribe({
   //    next: (e) => {
