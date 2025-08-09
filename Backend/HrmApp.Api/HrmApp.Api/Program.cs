@@ -16,6 +16,19 @@ builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
 
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngularApp",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200") // your Angular app's origin
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
+
+
+
 
 var app = builder.Build();
 
@@ -40,9 +53,13 @@ app.UseHttpsRedirection();
 app.UseRouting();
 app.UseAuthorization();
 
+
+app.UseCors("AllowAngularApp");
+
+
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapControllers();
+    _ = endpoints.MapControllers();
 });
 
 app.Run();

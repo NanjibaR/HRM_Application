@@ -18,122 +18,280 @@
         </li>
 
         <!-- Dynamic List Items -->
-        <li
-          *ngFor="let item of items; let i = index"
-          class="list-group-item list-hover border rounded py-2"
-          style="cursor: pointer; background-color: #ffffff;"
-          [class.active]="selectedIndex === i"
-          (click)="selectItem(i)"
-        >
-          <div>{{ item.text }}</div>
-        </li>
+        @for (employee of employees; track $index; let i = $index) {
+          <li
+            class="list-group-item list-hover border rounded py-2"
+            style="cursor: pointer; background-color: #ffffff;"
+            [class.active]="selectedIndex === i"
+            (click)="selectItem(i)"
+          >
+            <div>{{ employee.id +'-'+employee.employeeName+''+employee.departmentName }}</div>
+          </li>
+        }
       </ul>
     </div>
 
-    
     <div class="col-10 p-4">
-      <form>
-        <!-- Row 1 -->
+      <form [formGroup]="formOfEmployee">
+        <!-- Row 1 Buttons-->
         <div class="row">
-
-              <!-- Buttons -->
-            <div class="d-flex justify-content-end mb-3">
-              <button class="btn btn-success rounded-pill me-2">ADD</button>
-              <button class="btn btn-warning rounded-pill me-2">EDIT</button>
-              <button class="btn btn-danger rounded-pill">DELETE</button>
-            </div>
-
+          <div class="d-flex justify-content-end mb-3">
+            <button class="btn btn-success rounded-pill me-2">ADD</button>
+            <button class="btn btn-warning rounded-pill me-2">EDIT</button>
+            <button class="btn btn-danger rounded-pill">DELETE</button>
+          </div>
         </div>
 
-
- <!-- Row 2 -->
+        <!-- Row 2 -->
         <div class="row">
-            <div class="col-3 mb-3">
-              <label for="name">Employee Name</label>
-              <input id="name" type="text" name="name" value="" class="form-control mt-1" />
-            </div>
+          <div class="col-3 mb-3">
+            <label for="name">Employee Name</label>
+            <input id="name" type="text" formControlName="employeeName" class="form-control mt-1" />
+          </div>
 
+          <div class="col-3 mb-3">
+            <label for="name">Employee Name Bangla</label>
+            <input id="name" type="text" formControlName="employeeNameBangla" class="form-control mt-1" />
+          </div>
 
-            <div class="col-3 mb-3">
-              <label for="FatherName">Father's Name</label>
-              <input id="FatherName" type="text" class="form-control mt-1" formControlName="fatherName" />
-            </div>
- 
-            
-            <div class="col-3 mb-3">
-              <label for="IdReportingManager">Reporting Manager</label>
-              <input id="IdReportingManager" type="number" class="form-control mt-1" formControlName="idReportingManager" />
-            </div>
- 
-            
-            <div class="col-3 mb-3">
-              <label for="IdEmployeeType">Employee Type</label>
-              <select class="form-select mt-1" formControlName="idEmployeeType">
-                <option *ngFor="let emp of employeeTypes" [ngValue]="emp.value">
+          <div class="col-3 mb-3">
+            <label for="FatherName">Father's Name</label>
+            <input id="FatherName" type="text" class="form-control mt-1" formControlName="fatherName" />
+          </div>
+
+          <div class="col-3 mb-3">
+            <label for="MotherName">Mother's Name</label>
+            <input id="MotherName" type="text" class="form-control mt-1" formControlName="motherName" />
+          </div>
+        </div>
+
+        <!-- Row 3 -->
+        <div class="row">
+          <div class="col-3 mb-3">
+            <label for="IdReportingManager">Reporting Manager</label>
+            <input id="IdReportingManager" type="number" class="form-control mt-1" formControlName="idReportingManager" />
+          </div>
+
+          <div class="col-3 mb-3">
+            <label for="IdEmployeeType">Employee Type</label>
+            <select class="form-select mt-1" formControlName="idEmployeeType">
+              @for (emp of employeeTypes; track emp.value) {
+                <option [ngValue]="emp.value">
                   {{ emp.text }}
                 </option>
-              </select>
-            </div>
-         </div>
-        
+              }
+            </select>
+          </div>
 
+          <div class="col-3 mb-3">
+            <label for="IdJobType">Job Type</label>
+            <select class="form-select mt-1" formControlName="idJobType">
+              <!--@for (job of jobtyps; track job.value) {
+                    <option [ngValue]="job.value">
+                      {{ job.text }}
+                    </option>
+                  } -->
+            </select>
+          </div>
 
-          <!-- Row 3 -->
-        <div class="row">
-              <!-- Right Content 2 -->        
-         
-            <div class="col-3 mb-3">
-              <label for="name">Employee Name Bangla</label>
-              <input id="name" type="text" name="name" value="" class="form-control mt-1" />
-            </div>
-         
-            <div class="col-3 mb-3">
-              <label for="MotherName">Mother's Name</label>
-              <input id="MotherName" type="text" class="form-control mt-1" formControlName="motherName" />
-            </div>
-          
-            <div class="col-3 mb-3">
-              <label for="IdJobType">Job Type</label>
-              <select class="form-select mt-1" formControlName="idJobType">
-                <!-- <option *ngFor="let job of jobtyps" [ngValue]="job.value">
-                  {{job.text}}
-                </option> -->
-              </select>
-            </div>
-
-             <div class="col-3 mb-3">
-              <label for="IdJobType">Job Type</label>
-              <select class="form-select mt-1" formControlName="idJobType">
-                <!-- <option *ngFor="let job of jobtyps" [ngValue]="job.value">
-                  {{job.text}}
-                </option> -->
-              </select>
-            </div>
-          
+          <div class="col-3 mb-3">
+            <label for="JoiningDate">Joining Date</label>
+            <input id="JoiningDate" type="date" class="form-control mt-1" formControlName="joiningDate" />
+          </div>
         </div>
 
-
+        <!-- Row 4 -->
         <div class="row">
-          <!-- Family Information -->
-          <div class="col-3 md-10 mb-3">
+          <div class="col-3 mb-3">
+            <label for="IdGender">Gender</label>
+            <select class="form-select mt-1" formControlName="idGender">
+              @for (gen of genders; track gen.value) {
+                <option [ngValue]="gen.value">
+                  {{ gen.text }}
+                </option>
+              }
+            </select>
+          </div>
+
+          <div class="col-3 mb-3">
+            <label for="IdReligion">Religion</label>
+            <select class="form-select mt-1" formControlName="idReligion">
+              @for (rel of religions; track rel.value) {
+                <option [ngValue]="rel.value">
+                  {{ rel.text }}
+                </option>
+              }
+            </select>
+          </div>
+
+          <div class="col-3 mb-3">
+            <label class="form-label">Department</label>
+            <select class="form-select" formControlName="idDepartment">
+              @for (dept of departments; track dept.value) {
+              <option [ngValue]="dept.value">
+                  {{ dept.text }} - {{ dept.value }}
+              </option>
+              }
+            </select>
+          </div>
+
+          <div class="col-3 mb-3">
+            <label for="BirthDate">Date Of Birth</label>
+            <input id="BirthDate" type="date" class="form-control mt-1" formControlName="birthDate" />
+          </div>
+        </div>
+
+        <!-- Row 5 -->
+        <div class="row">
+          <div class="col-3 mb-3">
+            <label for="IdSection">Section</label>
+            <select class="form-select mt-1" formControlName="idSection">
+              @for (sec of sections; track sec.value) {
+              <option [ngValue]="sec.value">
+                  {{ sec.text }}
+              </option>
+              }
+            </select>
+          </div>
+
+          <div class="col-3 mb-3">
+            <label for="IdDesignation">Designation</label>
+            <select class="form-select mt-1" formControlName="idDesignation">
+              @for (desig of designations; track desig.value) {
+                <option [ngValue]="desig.value">
+                    {{ desig.text }}
+                </option>
+              }
+            </select>
+          </div>
+
+          <div class="col-3 mb-3">
+            <label>Has Overtime?</label>
+            <div class="d-flex">
+              <div class="form-check me-3">
+                <input type="radio" class="form-check-input" [value]="true" formControlName="hasOvertime" id="overtimeYes" />
+                <label class="form-check-label" for="overtimeYes">Yes</label>
+              </div>
+              <div class="form-check">
+                <input type="radio" class="form-check-input" [value]="false" formControlName="hasOvertime" id="overtimeNo" />
+                <label class="form-check-label" for="overtimeNo">No</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-3 mb-3">
+            <label>Has Attendance Bonus?</label>
+            <div class="d-flex">
+              <div class="form-check me-3">
+                <input type="radio" class="form-check-input" [value]="true" formControlName="hasAttendanceBonus" id="bonusYes" />
+                <label class="form-check-label" for="bonusYes">Yes</label>
+              </div>
+              <div class="form-check">
+                <input type="radio" class="form-check-input" [value]="false" formControlName="hasAttendanceBonus" id="bonusNo" />
+                <label class="form-check-label" for="bonusNo">No</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 6 -->
+        <div class="row">
+          <div class="col-3 mb-3">
+            <label for="IdWeekOff">Week Off</label>
+            <select class="form-select mt-1" formControlName="idWeekOff">
+              <!-- @for (wkf of weekoffs; track wkf.value) {
+                      <option [ngValue]="wkf.value">
+                        {{ wkf.text }}
+                      </option>
+                    } -->
+            </select>
+          </div>
+
+          <div class="col-3 mb-3">
+            <label for="NationalIdentificationNumber">NID</label>
+            <input id="NationalIdentificationNumber" type="text" class="form-control mt-1" formControlName="nationalIdentificationNumber" />
+          </div>
+
+          <div class="col-3 mb-3">
+            <label for="ContactNo">Contact No</label>
+            <input id="ContactNo" type="text" class="form-control mt-1" formControlName="contactNo" />
+          </div>
+
+          <div class="col-3 mb-3">
+            <label>Is Active?</label>
+            <div class="d-flex">
+              <div class="form-check me-3">
+                <input class="form-check-input" type="radio" [value]="true" formControlName="isActive" id="isActiveYes" />
+                <label class="form-check-label" for="isActiveYes">Yes</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" [value]="false" formControlName="isActive" id="isActiveNo" />
+                <label class="form-check-label" for="isActiveNo">No</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 7 -->
+        <div class="row">
+          <div class="col-3 mb-3">
+            <label for="IdMaritalStatus">Marital Status</label>
+            <select class="form-select mt-1" formControlName="idMaritalStatus">
+              <!-- <option value="">Select Marital Status</option>
+              @for (mt of MaritalStatus; track mt.value) {
+                <option [ngValue]="mt.value">
+                  {{ mt.text }}
+                </option>
+              } -->
+            </select>
+          </div>
+
+          <div class="col-3 mb-3">
+            <label for="Address">Address</label>
+            <input id="Address" type="text" class="form-control mt-1" formControlName="address" />
+          </div>
+
+          <div class="col-3 mb-3">
+            <label for="ParmanentAddress">Parmanent Address</label>
+            <input id="ParmanentAddress" type="text" class="form-control mt-1" formControlName="presentAddress" />
+          </div>
+
+          <div class="col-3 mb-3">
+            <label for="profileFile" class="form-label">Upload Image</label>
+            <input formControlName="employeeImageBase" type="file" />
+            <ng-template #noImage>
+              <p>No image available</p>
+            </ng-template>
+          </div>
+        </div>
+
+        <!-- Save Button -->
+        <div class="row">
+          <div class="d-flex justify-content-end mb-3">
+            <button class="btn btn-success rounded-pill me-2">Save</button>
+          </div>
+        </div>
+
+        <!-- Information Tables -->
+        <div class="row mb-4">
+          <div class="col-6 md-10 mb-6">
             <div class="card">
               <div class="card-header fw-bold">Family Information</div>
-                <div class="card-body p-0">
-                  <table class="table table-bordered mb-0">
-                    <tr><td>Row 1</td></tr>
-                    <tr><td>Row 2</td></tr>
-                    <tr><td>Row 3</td></tr>
-                  </table>
+              <div class="card-body p-1">
+                <table class="table table-bordered mb-0" style="cursor: pointer;">
+                  <tr><td>Row 1</td></tr>
+                  <tr><td>Row 2</td></tr>
+                  <tr><td>Row 3</td></tr>
+                </table>
               </div>
             </div>
           </div>
 
-          <!-- Education -->
-          <div class="col-3 md-10 mb-3">
+          <div class="col-6 md-10 mb-6">
             <div class="card">
               <div class="card-header fw-bold">Education Information</div>
-              <div class="card-body p-0">
-                <table class="table table-bordered mb-0">
+              <div class="card-body p-1">
+                <table class="table table-bordered mb-0" style="cursor: pointer;">
                   <tr><td>Row 1</td></tr>
                   <tr><td>Row 2</td></tr>
                   <tr><td>Row 3</td></tr>
@@ -141,73 +299,38 @@
               </div>
             </div>
           </div>
-
-          <!-- Professional Certification -->
-          <div class="col-3 md-10 mb-3">
-            <div class="card">
-              <div class="card-header fw-bold">Certificate Information</div>
-              <div class="card-body p-0">
-                <table class="table table-bordered mb-0">
-                  <tr><td>Row 1</td></tr>
-                  <tr><td>Row 2</td></tr>
-                  <tr><td>Row 3</td></tr>
-                </table>
-              </div>
-            </div>
-          </div>
-
-
-
-           <!-- Documents -->
-          <div class="col-3 md-10 mb-3">
-            <div class="card">
-              <div class="card-header fw-bold">Documents</div>
-              <div class="card-body p-0">
-                <table class="table table-bordered mb-0">
-                  <tr><td>Row 1</td></tr>
-                  <tr><td>Row 2</td></tr>
-                  <tr><td>Row 3</td></tr>
-                </table>
-              </div>
-            </div>
-          </div>         
         </div>
 
-        
+        <!-- 2nd row of table-->
+        <div class="row">
+          <div class="col-6 md-10 mb-6">
+            <div class="card">
+              <div class="card-header fw-bold">Certificate Information</div>
+              <div class="card-body p-1">
+                <table class="table table-bordered mb-0" style="cursor: pointer;">
+                  <tr><td>Row 1</td></tr>
+                  <tr><td>Row 2</td></tr>
+                  <tr><td>Row 3</td></tr>
+                </table>
+              </div>
+            </div>
+          </div>
 
-        
-      </form>   
+          <div class="col-6 md-10 mb-6">
+            <div class="card">
+              <div class="card-header fw-bold">Documents</div>
+              <div class="card-body p-1">
+                <table class="table table-bordered mb-0" style="cursor: pointer;">
+                  <tr><td>Row 1</td></tr>
+                  <tr><td>Row 2</td></tr>
+                  <tr><td>Row 3</td></tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
-      
   </div>
 </div>
-
-
-
-
-
-
-
-
- 
-
-
-
-
-
-
-
-
-<style>
-  .list-hover:hover {
-    background-color: #87ceeb !important;
-  }
-
-  .list-group-item.active {
-    background-color: #0d6efd !important;
-    color: white !important;
-    border-color: #0d6efd !important;
-  }
-</style>
-
 

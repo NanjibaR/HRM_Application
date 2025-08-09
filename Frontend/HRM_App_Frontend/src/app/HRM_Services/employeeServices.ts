@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { EmployeeDTO} from '../HRM_Models/employeeDto';
 import { DocummentDto} from '../HRM_Models/documentDto';
@@ -11,7 +11,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 @Injectable({
   providedIn: 'root'
 })
-export class EmployeeServices {
+export class EmployeeService {
     private apiUrl = 'https://localhost:7035/api/employee';
     constructor(private http: HttpClient) {}
 
@@ -23,11 +23,28 @@ export class EmployeeServices {
         // );
      }
 
-    //  getEmployeeById(idClient: number, id: number): Observable<any> {
-    //       //const params = new HttpParams()
-    //       .set('Idclient', idClient.toString())
-    //       .set('id', id.toString());
+      getEmployeeById(idClient: number, id: number): Observable<EmployeeDTO[]> {
+           const params = new HttpParams()
+          .set('Idclient', idClient.toString())
+          .set('id', id.toString());
 
-    //       return this.http.get<EmployeeDTO>(`${this.apiUrl}/getemployeebyid`, { params })
-    //  }
+          return this.http.get<EmployeeDTO[]>(`${this.apiUrl}/detail/{id}`, { params })
+      }
+
+
+
+      // getEmployeeImage(idClient: number, id: number): Observable<Blob> {
+      //     const params = new HttpParams()
+      //       .set('Idclient', idClient.toString())
+      //       .set('id', id.toString());
+
+      //     return this.http.get(`${this.apiUrl}/employeeimage`, {
+      //       params,
+      //       responseType: 'blob'
+      //     })
+          
+      //     // .pipe(
+      //     //   catchError(this.handleError)
+      //     // );
+      //   }
 }

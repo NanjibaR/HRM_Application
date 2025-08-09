@@ -1,13 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component, inject, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmployeeDTO} from '../../HRM_Models/employeeDto';
-import { DocummentDto} from '../../HRM_Models/documentDto';
-import { EmployeefamilyInfoDto} from '../../HRM_Models/employeefamilyInfoDto';
-import { EducationInfoDto} from '../../HRM_Models/educationInfoDto';
-import { EmployeeProfessionalCertificationDto} from '../../HRM_Models/employeeProfessionalCertificationDto';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { EmployeeServices } from '../../HRM_Services/employeeServices';
+import { SafeUrl } from '@angular/platform-browser';
+import { EmployeeService } from '../../HRM_Services/employeeServices';
 // import { DropdownService } from '../../services/dropdown-service';
 // import { ToastrService } from 'ngx-toastr';
 
@@ -20,6 +16,8 @@ import { EmployeeServices } from '../../HRM_Services/employeeServices';
   standalone: true
 })
 export class EmployeeComponent implements OnInit{
+
+    private employeeService = inject(EmployeeService); 
 
     employees: EmployeeDTO[] = [];
     selectedEmployee: EmployeeDTO | null = null;
@@ -56,7 +54,6 @@ export class EmployeeComponent implements OnInit{
   }
 
   constructor(
-    //private employeeServices: EmployeeServices,
     // private dropdownService: DropdownService,
      private fb: FormBuilder,
     // private sanitizer: DomSanitizer,
@@ -96,7 +93,7 @@ export class EmployeeComponent implements OnInit{
     contactNo: [''],
     isActive: [true],
     hasOvertime: [false],
-    hasAttendenceBonus: [false],
+    hasAttendanceBonus: [false],
     idWeekOff: [null],
     weekOffDay: [''],
     idMaritalStatus: [null],
@@ -107,25 +104,18 @@ export class EmployeeComponent implements OnInit{
     educationInfos: this.fb.array([]),
     familyInfos: this.fb.array([]),
     certifications: this.fb.array([]),
-    ProfileFile: [null],
-    EmployeeImageBase: ['']
+    profileFile: [null],
+    employeeImageBase: ['']
+
+   
   });
     
   }
 
-  
-  items = [
-    { text: 'An disabled item', disabled: true },
-    { text: 'A second item', disabled: false },
-    { text: 'A third item', disabled: false },
-    { text: 'A fourth item', disabled: false },
-    { text: 'And a fifth one', disabled: false }
-  ];
-
     ngOnInit(): void {
       
       this.formOfEmployee.disable(); 
-      //this.loadEmployees();
+      this.loadEmployees();
       // this.loadDropdownData();
 
     }
@@ -138,11 +128,11 @@ export class EmployeeComponent implements OnInit{
   }
 
 
-  //   loadEmployees(): void {
-  //   this.EmployeeServices.getEmployees(this.idClient).subscribe(data => {
-  //     this.employees = data;  console.log(data);
-  //   });
-  // }
+    loadEmployees(): void {
+    this.employeeService.getEmployees(this.idClient).subscribe(data => {
+      this.employees = data;
+    });
+  }
 
 
 

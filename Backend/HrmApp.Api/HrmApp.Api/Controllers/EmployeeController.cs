@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 using static System.Collections.Specialized.BitVector32;
 
 namespace HrmApp.Api.Controllers
@@ -30,111 +31,162 @@ namespace HrmApp.Api.Controllers
         [HttpGet()]
         public async Task<ActionResult<IEnumerable<HrmDTO.EmployeeDTO>>> GetEmployees([FromQuery] int idClient, CancellationToken cancellationToken)
         {
-            var employees = await _context.Employees
-                .Where(e => e.IdClient == idClient)
+            var employees = await _context.Employees.AsNoTracking().Where(emp => emp.IdClient == idClient)
                 .Select(e => new EmployeeDTO
                 {
-
                     Id = e.Id,
                     EmployeeName = e.EmployeeName,
-                    EmployeeNameBangla = e.EmployeeNameBangla,
-                    FatherName = e.FatherName,
-                    MotherName = e.MotherName,
-                    BirthDate = e.BirthDate,
-                    JoiningDate = e.JoiningDate,
-                    ContactNo = e.ContactNo,
-                    NationalIdentificationNumber = e.NationalIdentificationNumber,
-                    Address = e.Address,
-                    PresentAddress = e.PresentAddress,
-                    EmployeeImageBase = e.EmployeeImage != null ? Convert.ToBase64String(e.EmployeeImage) : null,
-                    IdGender = e.IdGender,
-                    IdReligion = e.IdReligion,
-                    IdDepartment = e.IdDepartment,
-                    IdSection = e.IdSection,
-                    IdDesignation = e.IdDesignation,
-                    IdReportingManager = e.IdReportingManager,
-                    IdJobType = e.IdJobType,
-                    IdEmployeeType = e.IdEmployeeType,
-                    IdMaritalStatus = e.IdMaritalStatus,
-                    IdWeekOff = e.IdWeekOff,
-                    CreatedBy = e.CreatedBy,
-                    SetDate = e.SetDate,
-                    IsActive = e.IsActive ?? true,
-                    HasOvertime = e.HasOvertime ?? false,
-                    HasAttendenceBonus = e.HasAttendenceBonus ?? false,
-                    //  EmployeeImageBase = ConvertImageToBase (e.EmployeeImage),
-
-
-
-                    EmployeeDocuments = e.EmployeeDocuments.Select(doc => new DocummentDto
-                    {
-                        IdClient = e.IdClient,
-                        DocumentName = doc.DocumentName,
-                        FileName = doc.FileName,
-                        UploadDate = doc.UploadDate,
-                        UploadedFileExtention = doc.UploadedFileExtention,
-                        UploadedFile = doc.UploadedFile,
-                        // UploadedFileBase = ConvertFileToBase (doc.UploadedFile, doc.UploadedFileExtention),
-
-                        SetDate = DateTime.Now
-
-                    }).ToList(),
-
-
-                    EmployeeEducationInfos = e.EmployeeEducationInfos.Select(info => new EducationInfoDto
-                    {
-                        IdClient = info.IdClient,
-                        InstituteName = info.InstituteName,
-                        IdEducationLevel = info.IdEducationLevel,
-                        IdEducationExamination = info.IdEducationExamination,
-                        IdEducationResult = info.IdEducationResult,
-                        ExamScale = info.ExamScale,
-                        Marks = info.Marks,
-                        Major = info.Major,
-                        PassingYear = info.PassingYear,
-                        IsForeignInstitute = info.IsForeignInstitute,
-                        Duration = info.Duration,
-                        Achievement = info.Achievement,
-                        SetDate = DateTime.Now
-
-                    }).ToList(),
-
-
-                    EmployeeFamilyInfos = e.EmployeeFamilyInfos.Select(info => new EmployeefamilyInfoDto
-                    {
-                        IdClient = info.IdClient,
-                        IdGender = info.IdGender,
-                        IdRelationship = info.IdRelationship,
-                        Name = info.Name,
-                        ContactNo = info.ContactNo,
-                        DateOfBirth = info.DateOfBirth,
-                        CurrentAddress = info.CurrentAddress,
-                        PermanentAddress = info.PermanentAddress,
-                        SetDate = DateTime.Now
-
-                    }).ToList(),
-
-                    EmployeeProfessionalCertifications = e.EmployeeProfessionalCertifications.Select(info => new EmployeeProfessionalCertificationDto
-                    {
-                        IdClient = e.IdClient,
-                        CertificationTitle = info.CertificationTitle,
-                        CertificationInstitute = info.CertificationInstitute,
-                        InstituteLocation = info.InstituteLocation,
-                        FromDate = info.FromDate,
-                        ToDate = info.ToDate,
-                        SetDate = DateTime.Now
-
-                    }).ToList(),
-
-                })
-                .ToListAsync(cancellationToken);
+                    DepartmentName = e.Department.DepartName
+                }).ToListAsync(cancellationToken);
 
             return Ok(employees);
-
-
         }
 
 
+
+
+
+        //[HttpGet()]
+        //public async Task<ActionResult<IEnumerable<HrmDTO.EmployeeDTO>>> GetEmployees([FromQuery] int idClient, CancellationToken cancellationToken)
+        //{
+        //    var employees = await _context.Employees
+        //        .Where(e => e.IdClient == idClient)
+        //        .Select(e => new EmployeeDTO
+        //        {
+
+        //            Id = e.Id,
+        //            EmployeeName = e.EmployeeName,
+        //            EmployeeNameBangla = e.EmployeeNameBangla,
+        //            FatherName = e.FatherName,
+        //            MotherName = e.MotherName,
+        //            BirthDate = e.BirthDate,
+        //            JoiningDate = e.JoiningDate,
+        //            ContactNo = e.ContactNo,
+        //            NationalIdentificationNumber = e.NationalIdentificationNumber,
+        //            Address = e.Address,
+        //            PresentAddress = e.PresentAddress,
+        //            EmployeeImageBase = e.EmployeeImage != null ? Convert.ToBase64String(e.EmployeeImage) : null,
+        //            IdGender = e.IdGender,
+        //            IdReligion = e.IdReligion,
+        //            IdDepartment = e.IdDepartment,
+        //            IdSection = e.IdSection,
+        //            IdDesignation = e.IdDesignation,
+        //            IdReportingManager = e.IdReportingManager,
+        //            IdJobType = e.IdJobType,
+        //            IdEmployeeType = e.IdEmployeeType,
+        //            IdMaritalStatus = e.IdMaritalStatus,
+        //            IdWeekOff = e.IdWeekOff,
+        //            CreatedBy = e.CreatedBy,
+        //            SetDate = e.SetDate,
+        //            IsActive = e.IsActive ?? true,
+        //            HasOvertime = e.HasOvertime ?? false,
+        //            HasAttendenceBonus = e.HasAttendenceBonus ?? false,
+        //            //  EmployeeImageBase = ConvertImageToBase (e.EmployeeImage),
+
+
+
+        //            EmployeeDocuments = e.EmployeeDocuments.Select(doc => new DocummentDto
+        //            {
+        //                IdClient = e.IdClient,
+        //                DocumentName = doc.DocumentName,
+        //                FileName = doc.FileName,
+        //                UploadDate = doc.UploadDate,
+        //                UploadedFileExtention = doc.UploadedFileExtention,
+        //                UploadedFile = doc.UploadedFile,
+        //                // UploadedFileBase = ConvertFileToBase (doc.UploadedFile, doc.UploadedFileExtention),
+
+        //                SetDate = DateTime.Now
+
+        //            }).ToList(),
+
+
+        //            EmployeeEducationInfos = e.EmployeeEducationInfos.Select(info => new EducationInfoDto
+        //            {
+        //                IdClient = info.IdClient,
+        //                InstituteName = info.InstituteName,
+        //                IdEducationLevel = info.IdEducationLevel,
+        //                IdEducationExamination = info.IdEducationExamination,
+        //                IdEducationResult = info.IdEducationResult,
+        //                ExamScale = info.ExamScale,
+        //                Marks = info.Marks,
+        //                Major = info.Major,
+        //                PassingYear = info.PassingYear,
+        //                IsForeignInstitute = info.IsForeignInstitute,
+        //                Duration = info.Duration,
+        //                Achievement = info.Achievement,
+        //                SetDate = DateTime.Now
+
+        //            }).ToList(),
+
+
+        //            EmployeeFamilyInfos = e.EmployeeFamilyInfos.Select(info => new EmployeefamilyInfoDto
+        //            {
+        //                IdClient = info.IdClient,
+        //                IdGender = info.IdGender,
+        //                IdRelationship = info.IdRelationship,
+        //                Name = info.Name,
+        //                ContactNo = info.ContactNo,
+        //                DateOfBirth = info.DateOfBirth,
+        //                CurrentAddress = info.CurrentAddress,
+        //                PermanentAddress = info.PermanentAddress,
+        //                SetDate = DateTime.Now
+
+        //            }).ToList(),
+
+        //            EmployeeProfessionalCertifications = e.EmployeeProfessionalCertifications.Select(info => new EmployeeProfessionalCertificationDto
+        //            {
+        //                IdClient = e.IdClient,
+        //                CertificationTitle = info.CertificationTitle,
+        //                CertificationInstitute = info.CertificationInstitute,
+        //                InstituteLocation = info.InstituteLocation,
+        //                FromDate = info.FromDate,
+        //                ToDate = info.ToDate,
+        //                SetDate = DateTime.Now
+
+        //            }).ToList(),
+
+        //        })
+        //        .ToListAsync(cancellationToken);
+
+        //    return Ok(employees);
+
+
+        //}
+
+
+
+
+        // ConvertFileToByteArrayAsync method 
+
+        private async Task<byte[]?> ConvertFileToByteArrayAsync(IFormFile? file, CancellationToken cancellationToken)
+        {
+            if (file == null || file.Length == 0)
+                return null;
+
+            const long maxFileSize = 10 * 1024 * 1024;
+
+            if (file.Length > maxFileSize)
+                throw new Exception("File size cannot exceed 10 MB.");
+
+            using var memoryStream = new MemoryStream();
+            await file.CopyToAsync(memoryStream, cancellationToken);
+            return memoryStream.ToArray();
+        }
+
+
+
+        // ConvertImageToBase64 method 
+        private static string? ConvertImageToBase64 (byte[]? employeeImage)
+        {
+            if (employeeImage == null || employeeImage.Length == 0)
+                return null;
+
+            const long maxFileSize = 10 * 1024 * 1024;
+            if (employeeImage.Length > maxFileSize)
+                throw new Exception("File size cannot exceed 10 MB.");
+
+            return $"image/jpeg;base64,{Convert.ToBase64String(employeeImage)}";
+        }
 
 
 
@@ -149,8 +201,8 @@ namespace HrmApp.Api.Controllers
                 .Select(e => new EmployeeDTO
 
                 {
+                    Id = e.Id ,
                     IdClient = e.IdClient,
-                    Id = e.Id,
                     EmployeeName = e.EmployeeName,
                     EmployeeNameBangla = e.EmployeeNameBangla,
                     FatherName = e.FatherName,
@@ -174,7 +226,8 @@ namespace HrmApp.Api.Controllers
                     CreatedBy = e.CreatedBy,
                     SetDate = e.SetDate,
                     IsActive = e.IsActive,
-                    // EmployeeImageBase = ConvertImageToBase (e.EmployeeImage),
+                    EmployeeImageBase = ConvertImageToBase64(e.EmployeeImage),
+                    
 
 
 
@@ -185,10 +238,10 @@ namespace HrmApp.Api.Controllers
                         FileName = doc.FileName,
                         UploadDate = doc.UploadDate,
                         UploadedFileExtention = doc.UploadedFileExtention,
-                        UploadedFile = doc.UploadedFile,
                         SetDate = DateTime.Now,
-                        //UploadedFileBase = ConvertFileToBase (doc.UploadedFile, doc.UploadedFileExtention)
-
+                        UploadedFile = doc.UploadedFile
+                        //UploadedFile = await ConvertFileToByteArrayAsync(doc.UpFile)
+ 
                     }).ToList(),
 
 
@@ -254,26 +307,8 @@ namespace HrmApp.Api.Controllers
 
         }
 
+        
 
-
-
-        // ConvertFileToByteArrayAsync method 
-
-
-        private async Task<byte[]?> ConvertFileToByteArrayAsync(IFormFile? file, CancellationToken cancellationToken)
-        {
-            if (file == null || file.Length == 0)
-                return null;
-
-            const long maxFileSize = 10 * 1024 * 1024;
-
-            if (file.Length > maxFileSize)
-                throw new Exception("File size cannot exceed 10 MB.");
-
-            using var memoryStream = new MemoryStream();
-            await file.CopyToAsync(memoryStream, cancellationToken);
-            return memoryStream.ToArray();
-        }
 
 
 
@@ -312,23 +347,20 @@ namespace HrmApp.Api.Controllers
                 CreatedBy = createDto.CreatedBy,
                 SetDate = DateTime.Now,
                 IsActive = createDto.IsActive ?? true,
-
-
-
                 EmployeeImage = await ConvertFileToByteArrayAsync(createDto.ProfileFile, cancellationToken),
 
-                EmployeeDocuments = new List<EmployeeDocument>(),
-                //EmployeeDocuments = createDto.EmployeeDocuments.Select(doc => new EmployeeDocument
-                //{
-                //    IdClient = doc.IdClient,
-                //    DocumentName = doc.DocumentName,
-                //    FileName = doc.FileName,
-                //    UploadDate = doc.UploadDate,
-                //    UploadedFileExtention = doc.UploadedFileExtention,
-                //    UploadedFile = doc.UploadedFile,
-                //    SetDate = DateTime.Now
 
-                //}).ToList(),
+                EmployeeDocuments = createDto.EmployeeDocuments.Select(doc => new EmployeeDocument
+                {
+                    IdClient = doc.IdClient,
+                    DocumentName = doc.DocumentName,
+                    FileName = doc.FileName,
+                    UploadDate = doc.UploadDate,
+                    UploadedFileExtention = doc.UploadedFileExtention,
+                    UploadedFile = doc.UploadedFile,
+                    SetDate = DateTime.Now
+
+                }).ToList(),
 
                 EmployeeEducationInfos = createDto.EmployeeEducationInfos.Select(info => new EmployeeEducationInfo
                 {
@@ -673,6 +705,7 @@ namespace HrmApp.Api.Controllers
 
             return Ok(employee);
         }
+
 
     }
 
