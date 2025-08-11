@@ -4,7 +4,7 @@ import { EmployeefamilyInfoDto } from "./employeefamilyInfoDto";
 import { EmployeeProfessionalCertificationDto } from "./employeeProfessionalCertificationDto";
 
 export interface EmployeeDTO{
-
+    
     id: number;
     idClient: number;
     employeeName: string;
@@ -42,12 +42,14 @@ export interface EmployeeDTO{
     maritalStatusName?: string;
     setDate?: Date;
     createdBy?: string;
+    profileFile?: File;
+    employeeImageBase?: string;
     EmployeeDocuments: DocummentDto[];
     EmployeeEducationInfos: EducationInfoDto[];
     EmployeeProfessionalCertifications: EmployeeProfessionalCertificationDto[];
     EmployeeFamilyInfos: EmployeefamilyInfoDto[];
-    ProfileFile?: File;
-    EmployeeImageBase?: string;
+    
 
 }
+
 

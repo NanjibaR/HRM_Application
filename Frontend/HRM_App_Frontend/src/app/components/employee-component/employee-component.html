@@ -23,7 +23,7 @@
             class="list-group-item list-hover border rounded py-2"
             style="cursor: pointer; background-color: #ffffff;"
             [class.active]="selectedIndex === i"
-            (click)="selectItem(i)"
+            (click)="selectEmployee(employee)"
           >
             <div>{{ employee.id +'-'+employee.employeeName+''+employee.departmentName }}</div>
           </li>

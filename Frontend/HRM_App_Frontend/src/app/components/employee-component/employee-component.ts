@@ -4,6 +4,10 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { EmployeeDTO} from '../../HRM_Models/employeeDto';
 import { SafeUrl } from '@angular/platform-browser';
 import { EmployeeService } from '../../HRM_Services/employeeServices';
+import { DocummentDto } from '../../HRM_Models/documentDto';
+import { EducationInfoDto } from '../../HRM_Models/educationInfoDto';
+import { EmployeefamilyInfoDto } from '../../HRM_Models/employeefamilyInfoDto';
+import { EmployeeProfessionalCertificationDto } from '../../HRM_Models/employeeProfessionalCertificationDto';
 // import { DropdownService } from '../../services/dropdown-service';
 // import { ToastrService } from 'ngx-toastr';
 
@@ -15,6 +19,7 @@ import { EmployeeService } from '../../HRM_Services/employeeServices';
   styleUrl: './employee-component.css',
   standalone: true
 })
+
 export class EmployeeComponent implements OnInit{
 
     private employeeService = inject(EmployeeService); 
@@ -60,6 +65,8 @@ export class EmployeeComponent implements OnInit{
     // private toastr: ToastrService
   )
   {
+
+  
  
   this.formOfEmployee = this.fb.group({
 
@@ -110,6 +117,7 @@ export class EmployeeComponent implements OnInit{
    
   });
     
+    
   }
 
     ngOnInit(): void {
@@ -123,16 +131,80 @@ export class EmployeeComponent implements OnInit{
     
   selectedIndex: number | null = null;
 
-  selectItem(index: number) {
-    this.selectedIndex = index;
-  }
+  // selectItem(index: number) {
+  //   this.selectedIndex = index;
+  // }
+
+  selectEmployee(employee: EmployeeDTO) {
+  this.selectedEmployee = employee;
+
+  this.employeeService.getEmployeeById(this.idClient,employee.id).subscribe(employee => {
+    this.formOfEmployee.patchValue({
+    employeeName: employee.employeeName,
+    employeeNameBangla: employee.employeeNameBangla,
+    fatherName: employee.fatherName,
+    motherName: employee.motherName,
+    birthDate: employee.birthDate ? this.formatDate(employee.birthDate): null,
+    joiningDate: employee.joiningDate ? this.formatDate(employee.joiningDate): null,
+    idDepartment: employee.idDepartment,
+    departmentName: employee.departmentName,
+    idSection: employee.idSection,
+    sectionName: employee.sectionName,
+    idDesignation: employee.idDesignation,
+    designation: employee.designation,
+    address: employee.address,
+    idGender: employee.idGender,
+    genderName: employee.genderName,
+    idReligion: employee.idReligion,
+    religionName: employee.religionName,
+    idReportingManager: employee.idReportingManager,
+    reportingManager: employee.reportingManager,
+    idJobType: employee.idJobType,
+    jobTypeName: employee.jobTypeName,
+    idEmployeeType: employee.idEmployeeType,
+    typeName: employee.typeName,
+    presentAddress: employee.presentAddress,
+    nationalIdentificationNumber: employee.nationalIdentificationNumber,
+    contactNo: employee.contactNo,
+    isActive: employee.isActive,
+    hasOvertime: employee.hasOvertime,
+    hasAttendanceBonus: employee.hasAttendenceBonus,
+    idWeekOff: employee.idWeekOff,
+    weekOffDay: employee.weekOffDay,
+    idMaritalStatus: employee.idMaritalStatus,
+    maritalStatusName: employee.maritalStatusName,
+    setDate: employee.setDate ? this.formatDate(employee.setDate): null,
+    createdBy: employee.createdBy,
+    employeeImageBase: employee.employeeImageBase,
+    EmployeeDocuments: employee.EmployeeDocuments,
+    EmployeeEducationInfos: employee.EmployeeEducationInfos,
+    EmployeeProfessionalCertifications: employee.EmployeeProfessionalCertifications,
+    EmployeeFamilyInfos: employee.EmployeeFamilyInfos
+  });
+
+  });
 
 
-    loadEmployees(): void {
+  
+}
+
+
+  loadEmployees(): void {
     this.employeeService.getEmployees(this.idClient).subscribe(data => {
       this.employees = data;
     });
   }
+
+
+
+    
+
+  }
+  
+
+
+
+
 
 
 
@@ -183,4 +255,4 @@ export class EmployeeComponent implements OnInit{
   //   }
   
 
-}
+

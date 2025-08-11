@@ -12,26 +12,26 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
   providedIn: 'root'
 })
 export class EmployeeService {
-    private apiUrl = 'https://localhost:7035/api/employee';
+    private apiUrl = 'https://localhost:7035';
     constructor(private http: HttpClient) {}
 
 
      getEmployees(idClient: number): Observable<EmployeeDTO[]> {
-         return this.http.get<EmployeeDTO[]>(`${this.apiUrl}/?idClient=${idClient}`)
+         return this.http.get<EmployeeDTO[]>(`${this.apiUrl}/api/employee?idClient=${idClient}`)
         //  .pipe(
         //   catchError(this.handleError)
         // );
      }
 
-      getEmployeeById(idClient: number, id: number): Observable<EmployeeDTO[]> {
+      getEmployeeById(idClient: number, id: number): Observable<EmployeeDTO> {
            const params = new HttpParams()
-          .set('Idclient', idClient.toString())
-          .set('id', id.toString());
+           .set('Idclient', idClient.toString())
+           .set('id', id.toString());
+          //.set('Idclient', idClient.toString())
+          //.set('id', id.toString());
 
-          return this.http.get<EmployeeDTO[]>(`${this.apiUrl}/detail/{id}`, { params })
+          return this.http.get<EmployeeDTO>(`${this.apiUrl}/api/employee/detail`, { params })
       }
-
-
 
       // getEmployeeImage(idClient: number, id: number): Observable<Blob> {
       //     const params = new HttpParams()

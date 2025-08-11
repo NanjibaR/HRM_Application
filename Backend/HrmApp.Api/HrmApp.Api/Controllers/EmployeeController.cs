@@ -193,7 +193,7 @@ namespace HrmApp.Api.Controllers
 
         //GET by Id
 
-        [HttpGet("detail/{id:int}")]
+        [HttpGet("detail")]
         public async Task<ActionResult<HrmDTO.EmployeeDTO>> GetEmployeeById([FromQuery] int idClient, [FromQuery] int id, CancellationToken cancellationToken)
         {
             var employee = await _context.Employees
